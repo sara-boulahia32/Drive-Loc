@@ -1,3 +1,27 @@
+<?php
+session_start();
+require_once('config/db_config.php');
+require_once('utilisateur.php');
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $db = dataBase::getInstance()->getConnection();
+    $utilisateur = Utilisateur::authenticate($db, $email, $password);
+
+    if ($utilisateur) {
+        $_SESSION['user_id'] = $utilisateur->getId();
+        $_SESSION['user_role'] = $utilisateur->getRole();
+        header("Location: dashboard.php");
+        exit();
+    } else {
+        $error = "Invalid email or password.";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>

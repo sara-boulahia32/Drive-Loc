@@ -5,8 +5,8 @@ class dataBase {
 
     private $host = 'localhost';
     private $user = 'root';
-    private $pass = 'Sara123@';
-    private $name = 'voyage2';
+    private $pass = '';
+    private $name = 'drive_loc';
 
     private function __construct() {
         $this->conn = new PDO("mysql:host={$this->host};dbname={$this->name}", $this->user, $this->pass, [

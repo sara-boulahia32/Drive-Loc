@@ -20,28 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sign Up</title>
-</head>
-<body>
-    <h2>Sign Up</h2>
-    <form method="post" action="signup.php">
-        <label for="nom">Nom:</label>
-        <input type="text" id="nom" name="nom" required><br>
-        <label for="prenom">Prenom:</label>
-        <input type="text" id="prenom" name="prenom" required><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br>
-        <button type="submit">Sign Up</button>
-    </form>
-</body>
-</html>
-
-
-<!DOCTYPE html>
-<html>
-<head>
 <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Register - Ferrari</title>
