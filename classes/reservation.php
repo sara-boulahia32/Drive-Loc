@@ -72,7 +72,7 @@ class Reservation {
     }
 
     public static function updateReservationStatus($db, $id, $status) {
-        $query = "UPDATE reservations SET statut = :statut WHERE id = :id";
+        $query = "UPDATE reservations SET status = :status WHERE id = :id";
         $stmt = $db->prepare($query);
         $stmt->bindParam(':statut', $status);
         $stmt->bindParam(':id', $id);

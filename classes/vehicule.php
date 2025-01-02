@@ -99,6 +99,14 @@ class Vehicule {
         }
         return $vehicules;
     }
+
+        // $connx = new database();
+        // $db = $conn->getConnect();
+        // $pagination = new VehiculePagination($db);
+        // $response = $pagination->getAllVehicules();
+        // echo json_encode($response);
+
+
  
         public static function getVehiculeById($db, $id) {
             $query = "SELECT * FROM vehicules WHERE id = :id";
