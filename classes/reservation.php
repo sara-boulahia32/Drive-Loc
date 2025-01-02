@@ -21,6 +21,27 @@ class Reservation {
     public function getDateDebut() { return $this->date_debut; }
     public function getDateFin() { return $this->date_fin; }
     public function getStatut() { return $this->statut; }
+    
+    public function setId($id) { $this->id = $id; }
+
+    public function ajouterReservation($db) {
+        $query = "INSERT INTO reservations (user_id, vehicule_id, date_debut, date_fin, statut) VALUES (:user_id, :vehicule_id, :date_debut, :date_fin, :statut)";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':user_id', $this->user_id);
+        $stmt->bindParam(':vehicule_id', $this->vehicule_id);
+        $stmt->bindParam(':date_debut', $this->date_debut);
+        $stmt->bindParam(':date_fin', $this->date_fin);
+        $stmt->bindParam(':statut', $this->statut);
+        $stmt->execute();
+    }
+
+    public static function getReservationsByUserId($db, $user_id) {
+        $query = "SELECT * FROM reservations WHERE user_id = :user_id";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public static function getAllReservations($db) {
         $reservations = [];

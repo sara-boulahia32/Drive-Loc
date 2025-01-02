@@ -116,10 +116,10 @@ $vehicules = Vehicule::getAllVehicules($db);
                         <h3 class="text-xl font-bold text-white mb-2"><?php echo $vehicule->getModele(); ?></h3>
                         <p class="text-silver-300 mb-4">Prix : <?php echo $vehicule->getPrix(); ?>€/jour</p>
                         <p class="text-silver-300 mb-4">Disponibilité : <?php echo $vehicule->getDisponibilite() ? 'Disponible' : 'Indisponible'; ?></p>
-                        <button class="bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all">
-                            Réserver
-                        </button>
-                    </div>
+                        <div class="flex justify-between">
+                        <a href="reserver.php?id=<?php echo $vehicule->getId(); ?>" class="bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all"> Réserver </a>
+                        <a href="vehicule_details.php?id=<?php echo $vehicule->getId(); ?>" class="bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all"> Voir Détails </a>
+                    </div></div>
                 </div>
             <?php } ?>
         </div>
@@ -130,11 +130,11 @@ $vehicules = Vehicule::getAllVehicules($db);
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <div class="bg-black rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
         <div class="h-48 bg-silver-300">
-          <img src="../img/brock-wegner-pWGUMQSWBwI-unsplash.jpg" alt="Car" class="w-full h-full object-cover">
+          <img src="../img/pexels-mohammad-hammad-2148098658-29981161.jpg" alt="Car" class="w-full h-full object-cover">
         </div>
         <div class="p-6">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-bold text-white">BMW C50</h3>
+            <h3 class="text-xl font-bold text-white">BMW C50</h3>a
             <div class="flex items-center">
               <svg class="w-5 h-5 text-yellow-300 fill-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14M5 12h14" />
@@ -154,7 +154,7 @@ $vehicules = Vehicule::getAllVehicules($db);
       <!-- Repeat similar blocks for other cars -->
       <div class="bg-black rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
         <div class="h-48 bg-silver-300">
-          <img src="../img/brock-wegner-pWGUMQSWBwI-unsplash.jpg" alt="Car" class="w-full h-full object-cover">
+          <img src="../img/pexels-107932638-29913289.jpg" alt="Car" class="w-full h-full object-cover">
         </div>
         <div class="p-6">
           <div class="flex justify-between items-center mb-4">
