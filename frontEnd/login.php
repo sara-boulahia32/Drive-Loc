@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once('config/db_config.php');
-require_once('utilisateur.php');
+require_once('../database/db.php');
+require_once('../classes/utilisateur.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
@@ -56,8 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <form method="post" action="login.php" class="space-y-4">
           <div>
-            <label for="username" class="block text-sm font-medium text-gray-400">Email</label>
-            <input type="text" id="username" name="username" placeholder="John Doe" required
+            <label for="email" class="block text-sm font-medium text-gray-400">Email</label>
+            <input type="text" id="email" name="email" placeholder="John Doe" required
                    class="w-full px-4 py-2 mt-1 bg-zinc-800 border border-zinc-700 text-white placeholder-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500">
           </div>
           <div>

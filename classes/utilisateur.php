@@ -40,7 +40,9 @@ class Utilisateur {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
-            return new Utilisateur($user['nom'], $user['prenom'], $user['email'], $user['password'], $user['role']);
+            $utilisateur = new Utilisateur($user['nom'], $user['prenom'], $user['email'], $user['password'], $user['role']);
+            $utilisateur->id = $user['id']; // Set the ID property
+            return $utilisateur;
         }
         return null;
     }

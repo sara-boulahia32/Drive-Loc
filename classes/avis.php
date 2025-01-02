@@ -71,5 +71,25 @@ class Avis {
         $stmt->bindParam(':id', $id);
         $stmt->execute();
     }
+
+    public static function getAvisByUser($db, $user_id) {
+        $avis = [];
+        $query = "SELECT * FROM avis WHERE user_id = :user_id AND deleted_at IS NULL";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->execute();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $avis[] = new Avis(
+                $row['reservation_id'],
+                $row['user_id'],
+                $row['vehicule_id'],
+                $row['note'],
+                $row['commentaire'],
+                $row['deleted_at'],
+                $row['created_at']
+            );
+        }
+        return $avis;
+    }
 }
 ?>

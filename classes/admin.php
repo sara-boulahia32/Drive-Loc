@@ -3,14 +3,22 @@ require_once('utilisateur.php');
 
 class Admin extends Utilisateur {
     public function ajouterVehicule($db, $vehicule) {
-        $query = "INSERT INTO vehicules (modele, prix, disponibilite, categorie_id) VALUES (:modele, :prix, :disponibilite, :categorie_id)";
+        $query = "INSERT INTO vehicules (modele, prix, disponibilite, categorie_id, image_path) VALUES (:modele, :prix, :disponibilite, :categorie_id, :image_path)";
         $stmt = $db->prepare($query);
+        echo '<pre>';
+print_r($stmt->debugDumpParams());
+echo '</pre>';
+        $image_path = $vehicule->getImage();
         $stmt->bindParam(':modele', $vehicule->getModele());
         $stmt->bindParam(':prix', $vehicule->getPrix());
         $stmt->bindParam(':disponibilite', $vehicule->getDisponibilite());
         $stmt->bindParam(':categorie_id', $vehicule->getCategorieId());
+        // $stmt->bindParam(':image_path', $vehicule->getImage());
+        $stmt->bindParam(':image_path', $image_path);
         $stmt->execute();
     }
+
+
 
     public function modifierVehicule($db, $vehicule) {
         $query = "UPDATE vehicules SET modele = :modele, prix = :prix, disponibilite = :disponibilite, categorie_id = :categorie_id WHERE id = :id";
