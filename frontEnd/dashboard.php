@@ -13,7 +13,34 @@ require_once('../classes/avis.php');
 require_once('../classes/statistiques.php');
 
 $db = dataBase::getInstance()->getConnection();
-$admin = new Admin('', '', '', '', 'admin'); $statistiques = Statistiques::getStatistiques($db); $vehicules = Vehicule::getAllVehicules($db); $categories = Categorie::getAllCategories($db); $avisList = Avis::getAllAvis($db); if ($_SERVER["REQUEST_METHOD"] == "POST") { $action = $_POST['action']; if ($action == 'add_vehicule') { $modele = $_POST['modele']; $prix = $_POST['prix']; $disponibilite = $_POST['disponibilite']; $categorie_id = $_POST['categorie_id']; $image_path = $_FILES['image']['name']; move_uploaded_file($_FILES['image']['tmp_name'], "../uploads/" . $image_path); $vehicule = new Vehicule($modele, $prix, $disponibilite, $categorie_id, $image_path); $admin->ajouterVehicule($db, $vehicule); } elseif ($action == 'add_categorie') { $nom = $_POST['nom']; $description = $_POST['description']; $categorie = new Categorie($nom, $description); $admin->ajouterCategorie($db, $categorie); } elseif ($action == 'delete_avis') { $avis_id = $_POST['avis_id']; Avis::softDelete($db, $avis_id); } header("Location: dashboard.php"); exit(); }
+$admin = new Admin('', '', '', '', 'admin'); 
+$statistiques = Statistiques::getStatistiques($db); 
+$vehicules = Vehicule::getAllVehicules($db); 
+$categories = Categorie::getAllCategories($db); 
+$avisList = Avis::getAllAvis($db); 
+if ($_SERVER["REQUEST_METHOD"] == "POST") { 
+    $action = $_POST['action']; 
+    if ($action == 'add_vehicule') { 
+        $modele = $_POST['modele']; 
+        $prix = $_POST['prix']; 
+        $disponibilite = $_POST['disponibilite']; 
+        $categorie_id = $_POST['categorie_id']; 
+        $image_path = $_FILES['image']['name']; 
+        move_uploaded_file($_FILES['image']['tmp_name'], "../uploads/" . $image_path); 
+        $vehicule = new Vehicule($modele, $marque, $categorie_id, $description, $prix, $diponibilite, $annee_fabrication, $kilometrage, $type_carburant, $boite_vitesse, $puissance_moteur, $couleur, $equipements_standards, $options_supplementaires, $dates_disponibles, $lieu_prise_en_charge, $lieu_retour, $image_path); 
+       
+        $admin->ajouterVehicule($db, $vehicule); 
+    } elseif ($action == 'add_categorie') { 
+        $nom = $_POST['nom']; 
+        $description = $_POST['description']; 
+        $categorie = new Categorie($nom, $description); 
+        $admin->ajouterCategorie($db, $categorie); 
+    } elseif ($action == 'delete_avis') { 
+        $avis_id = $_POST['avis_id']; 
+        Avis::softDelete($db, $avis_id); 
+    } 
+    header("Location: dashboard.php"); exit(); 
+}
 $query = "
     SELECT 
         avis.id AS avis_id,
@@ -80,7 +107,11 @@ $avisList = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <div class="bg-zinc-900 p-6 rounded-xl">
                 <div class="flex justify-between items-start mb-4">
-                    <div class="text-white h-6 w-6 bg-gray-800 rounded-full"></div> <!-- Placeholder for icon -->
+                    <div class="text-white h-6 w-6 bg-gray-800 rounded-full">
+
+                    <!-- Placeholder for icon -->
+
+                    </div> 
                     <span class="text-green-500 text-sm">+5%</span>
                 </div>
                 <div class="text-3xl font-light mb-2"><?= $statistiques->total_reservations; ?></div>
@@ -88,7 +119,10 @@ $avisList = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <div class="bg-zinc-900 p-6 rounded-xl">
                 <div class="flex justify-between items-start mb-4">
-                    <div class="text-white h-6 w-6 bg-gray-800 rounded-full"></div> <!-- Placeholder for icon -->
+                    <div class="text-white h-6 w-6 bg-gray-800 rounded-full">
+
+
+                    </div> <!-- Placeholder for icon -->
                     <span class="text-green-500 text-sm">+18%</span>
                 </div>
                 <div class="text-3xl font-light mb-2"><?= $statistiques->reservations_approuvees; ?></div>
@@ -96,7 +130,10 @@ $avisList = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <div class="bg-zinc-900 p-6 rounded-xl">
                 <div class="flex justify-between items-start mb-4">
-                    <div class="text-white h-6 w-6 bg-gray-800 rounded-full"></div> <!-- Placeholder for icon -->
+                    <div class="text-white h-6 w-6 bg-gray-800 rounded-full">
+
+
+                    </div> <!-- Placeholder for icon -->
                     <span class="text-green-500 text-sm">+22%</span>
                 </div>
                 <div class="text-3xl font-light mb-2"><?= $statistiques->reservations_en_attente; ?></div>

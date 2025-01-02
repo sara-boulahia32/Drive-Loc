@@ -77,11 +77,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form method="post" action="reserver.php?id=<?php echo $vehicule->getId(); ?>">
                     <div class="mb-4">
                         <label for="date_debut" class="block text-silver-300 mb-2">Date de début :</label>
-                        <input type="date" id="date_debut" name="date_debut" required class="w-full p-2 border rounded bg-black text-white">
+                        <input type="date" id="date_debut" name="date_debut" required class="w-full p-2 border rounded  text-black">
                     </div>
                     <div class="mb-4">
                         <label for="date_fin" class="block text-silver-300 mb-2">Date de fin :</label>
-                        <input type="date" id="date_fin" name="date_fin" required class="w-full p-2 border rounded bg-black text-white">
+                        <input type="date" id="date_fin" name="date_fin" required class="w-full p-2 border rounded text-black">
                     </div>
                     <button type="submit" class="bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all">
                         Réserver

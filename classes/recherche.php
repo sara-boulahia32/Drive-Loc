@@ -10,10 +10,26 @@ class Recherche {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $vehicules[] = new Vehicule(
                 $row['modele'],
+                $row['marque'],
+                $row['categorie_id'],
+                $row['description'],
                 $row['prix'],
                 $row['disponibilite'],
-                $row['categorie_id']
+                $row['annee_fabrication'],
+                $row['kilometrage'],
+                $row['type_carburant'],
+                $row['boite_vitesse'],
+                $row['puissance_moteur'],
+                $row['couleur'],
+                $row['equipements_standards'],
+                $row['options_supplementaires'],
+                $row['dates_disponibles'],
+                $row['lieu_prise_en_charge'],
+                $row['lieu_retour'],
+                $row['image_path']
+                
             );
+            
         }
         return $vehicules;
     }
@@ -27,9 +43,23 @@ class Recherche {
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $vehicules[] = new Vehicule(
                 $row['modele'],
+                $row['marque'],
+                $row['categorie_id'],
+                $row['description'],
                 $row['prix'],
                 $row['disponibilite'],
-                $row['categorie_id']
+                $row['annee_fabrication'],
+                $row['kilometrage'],
+                $row['type_carburant'],
+                $row['boite_vitesse'],
+                $row['puissance_moteur'],
+                $row['couleur'],
+                $row['equipements_standards'],
+                $row['options_supplementaires'],
+                $row['dates_disponibles'],
+                $row['lieu_prise_en_charge'],
+                $row['lieu_retour'],
+                $row['image_path']
             );
         }
         return $vehicules;
