@@ -169,9 +169,9 @@ $vehicules = Vehicule::getAllVehicules($db);
           <p class="text-silver-300 mb-4">Description courte de la voiture avec ses caractéristiques principales.</p>
           <div class="flex justify-between items-center">
             <span class="text-2xl font-bold text-white">50€/jour</span>
-            <button class="bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all">
-              Réserver
-            </button>
+            <a href="reserver.php?id=<?php echo $vehicule->getId(); ?>" class="bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all">
+    Réserver
+</a>
           </div>
         </div>
       </div>

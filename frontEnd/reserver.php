@@ -24,7 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date_fin = $_POST['date_fin'];
     $reservation = new Reservation($user_id, $vehicule_id, $date_debut, $date_fin, 'en attente');
     $reservation->ajouterReservation($db);
-    header("Location: confirmation.php");
+    echo "<script>alert('Réservation effectuée avec succès !');</script>";
+    header("Location: vehicule.php");
     exit();
 }
 ?>
@@ -74,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="p-6">
                 <h3 class="text-2xl font-bold text-white mb-2"><?php echo $vehicule->getModele(); ?></h3>
                 <p class="text-silver-300 mb-4">Prix : <?php echo $vehicule->getPrix(); ?>€/jour</p>
-                <form method="post" action="reserver.php?id=<?php echo $vehicule->getId(); ?>">
+                <form method="post" action="reserver.php?id=<?php echo $vehicule->getId(); ?>"> 
                     <div class="mb-4">
                         <label for="date_debut" class="block text-silver-300 mb-2">Date de début :</label>
                         <input type="date" id="date_debut" name="date_debut" required class="w-full p-2 border rounded  text-black">
@@ -83,10 +84,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="date_fin" class="block text-silver-300 mb-2">Date de fin :</label>
                         <input type="date" id="date_fin" name="date_fin" required class="w-full p-2 border rounded text-black">
                     </div>
-                    <button type="submit" class="bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all">
-                        Réserver
-                    </button>
+                    
+                    <button type="submit" class="bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all"> Réserver </button>
                 </form>
+                
             </div>
         </div>
     </div>

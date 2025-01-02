@@ -16,6 +16,7 @@ if (!$vehicule) {
     echo "Véhicule non trouvé.";
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>
