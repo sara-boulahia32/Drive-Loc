@@ -13,6 +13,9 @@ class Categorie {
     public function getNom() { return $this->nom; }
     public function getDescription() { return $this->description; }
 
+
+    public function setId($id) { $this->id = $id; }
+
     public static function getAllCategories($db) {
         $categories = [];
         $query = "SELECT * FROM categories";
@@ -20,6 +23,8 @@ class Categorie {
         $stmt->execute();
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $categories[] = new Categorie($row['nom'], $row['description']);
+            // $categorie->setId($row['id']); 
+            // $categories[] = $categorie;
         }
         return $categories;
     }

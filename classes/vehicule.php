@@ -1,6 +1,6 @@
 <?php
 class Vehicule {
-    private $id;
+    protected $id;
     private $modele;
     private $prix;
     private $disponibilite;
@@ -22,7 +22,8 @@ class Vehicule {
     private $lieu_retour;
 
   
-        public function __construct($modele, $marque, $categorie_id, $description, $prix, $disponibilite, $annee_fabrication, $kilometrage, $type_carburant, $boite_vitesse, $puissance_moteur, $couleur, $equipements_standards, $options_supplementaires, $dates_disponibles, $lieu_prise_en_charge, $lieu_retour, $image_path) {
+        public function __construct($id,$modele, $marque, $categorie_id, $description, $prix, $disponibilite, $annee_fabrication, $kilometrage, $type_carburant, $boite_vitesse, $puissance_moteur, $couleur, $equipements_standards, $options_supplementaires, $dates_disponibles, $lieu_prise_en_charge, $lieu_retour, $image_path) {
+            $this->id = $id;
             $this->modele = $modele;
             $this->marque = $marque;
             $this->categorie_id = $categorie_id;
@@ -75,6 +76,7 @@ class Vehicule {
         $stmt->execute();
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $vehicule = new Vehicule(
+                $row['id'],
                 $row['modele'],
                     $row['marque'],
                     $row['categorie_id'],
@@ -116,6 +118,7 @@ class Vehicule {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($row) {
                 $vehicule = new Vehicule(
+                    $row['id'],
                     $row['modele'],
                     $row['marque'],
                     $row['categorie_id'],

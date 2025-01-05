@@ -26,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $reservation->ajouterReservation($db);
     echo "<script>alert('Réservation effectuée avec succès !');</script>";
     header("Location: vehicule.php");
+
     exit();
 }
 ?>

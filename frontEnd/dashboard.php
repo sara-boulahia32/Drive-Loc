@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $categorie_id = $_POST['categorie_id']; 
         $image_path = $_FILES['image']['name']; 
         move_uploaded_file($_FILES['image']['tmp_name'], "../uploads/" . $image_path); 
-        $vehicule = new Vehicule($modele, $marque, $categorie_id, $description, $prix, $diponibilite, $annee_fabrication, $kilometrage, $type_carburant, $boite_vitesse, $puissance_moteur, $couleur, $equipements_standards, $options_supplementaires, $dates_disponibles, $lieu_prise_en_charge, $lieu_retour, $image_path); 
+        $vehicule = new Vehicule("",$modele, $marque, $categorie_id, $description, $prix, $diponibilite, $annee_fabrication, $kilometrage, $type_carburant, $boite_vitesse, $puissance_moteur, $couleur, $equipements_standards, $options_supplementaires, $dates_disponibles, $lieu_prise_en_charge, $lieu_retour, $image_path); 
        
         $admin->ajouterVehicule($db, $vehicule); 
     } elseif ($action == 'add_categorie') { 
