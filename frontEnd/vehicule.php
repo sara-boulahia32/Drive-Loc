@@ -42,7 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   <title>Drive & Loc</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="//cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css" rel="stylesheet">
-
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css"> 
+  <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script> 
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css"> <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script> <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 </head>
 
 <body class="min-h-screen bg-black text-white">
@@ -147,6 +150,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <?php } ?>
         </div>
 
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h2 class="text-3xl font-bold text-white mb-8">Véhicules</h2>
+    <div id="vehiculesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Data will be loaded here via Ajax -->
+    </div>
+    <div id="pagination" class="flex justify-center mt-8"> 
+      <!-- Pagination buttons will be added here --> 
+      </div>
+</div>
+
+
+
 
 
         
@@ -205,8 +220,87 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     </div>
   </div>
 <script type="text/javascript" src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js">
+  
 
 </script>
+
+
+<script>
+$(document).ready(function() {
+    var currentPage = 1;
+    var itemsPerPage = 3;
+
+    function loadVehicles(page) {
+        $.ajax({
+            url: "fetch_vehicules.php",
+            type: "POST",
+            data: {
+                start: (page - 1) * itemsPerPage,
+                length: itemsPerPage
+            },
+            dataType: "json",
+            success: function(json) {
+                console.log("JSON Data:", json); // Debugging: Log the JSON data returned
+                var vehiculesContainer = $('#vehiculesContainer');
+                vehiculesContainer.empty();
+                if (json.data && json.data.length > 0) {
+                    $.each(json.data, function(index, vehicule) {
+                        console.log("Vehicle Data:", vehicule); // Debugging: Log each vehicle data
+                        var vehiculeHtml = `
+                            <div class="bg-black rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+                                <div class="h-48 bg-silver-300">
+                                    <img src="../uploads/${vehicule.image}" alt="Car" class="w-full h-full object-cover">
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="text-xl font-bold text-white mb-2">${vehicule.modele}</h3>
+                                    <p class="text-silver-300 mb-4">Prix : ${vehicule.prix}€/jour</p>
+                                    <p class="text-silver-300 mb-4">Disponibilité : ${vehicule.disponibilite ? 'Disponible' : 'Indisponible'}</p>
+                                    <div class="flex justify-between">
+                                        
+                                        <a href="reserver.php?id=<?php echo $vehicule->getId(); ?>" class="bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all"> Réserver </a>
+
+                                        <a href="vehicule_details.php?id=${vehicule.id}" class="bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all">Voir Détails</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        vehiculesContainer.append(vehiculeHtml);
+                    });
+                    updatePagination(json.recordsTotal, page);
+                } else {
+                    console.log("No vehicles found."); // Debugging: Log if no vehicles are found
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching vehicles:", status, error); // Debugging: Log any errors
+            }
+        });
+    }
+
+    function updatePagination(totalItems, currentPage) {
+        var totalPages = Math.ceil(totalItems / itemsPerPage);
+        var pagination = $('#pagination');
+        pagination.empty();
+        for (var i = 1; i <= totalPages; i++) {
+            var pageButton = $('<button>')
+                .text(i)
+                .addClass('bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all mx-1')
+                .data('page', i)
+                .click(function() {
+                    loadVehicles($(this).data('page'));
+                });
+            if (i === currentPage) {
+                pageButton.addClass('bg-white text-black');
+            }
+            pagination.append(pageButton);
+        }
+    }
+
+    loadVehicles(currentPage);
+});
+</script>
+
+
 </body>
 
 </html>
