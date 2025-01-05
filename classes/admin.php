@@ -18,6 +18,8 @@ echo '</pre>';
         $stmt->execute();
     }
 
+    
+
 
 
     public function modifierVehicule($db, $vehicule) {

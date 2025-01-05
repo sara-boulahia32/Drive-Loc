@@ -143,6 +143,34 @@ class Vehicule {
             }
             return null;
         }
-    }
+  
+            public function ajouterVehicule($db) {
+                $query = "INSERT INTO vehicules (modele, marque, categorie_id, description, prix, disponibilite, annee_fabrication, kilometrage, type_carburant, boite_vitesse, puissance_moteur, couleur, equipements_standards, options_supplementaires, dates_disponibles, lieu_prise_en_charge, lieu_retour, image_path) VALUES (:modele, :marque, :categorie_id, :description, :prix, :disponibilite, :annee_fabrication, :kilometrage, :type_carburant, :boite_vitesse, :puissance_moteur, :couleur, :equipements_standards, :options_supplementaires, :dates_disponibles, :lieu_prise_en_charge, :lieu_retour, :image_path)";
+                $stmt = $db->prepare($query);
+                $stmt->bindParam(':modele', $this->modele);
+                $stmt->bindParam(':marque', $this->marque);
+                $stmt->bindParam(':categorie_id', $this->categorie_id);
+                $stmt->bindParam(':description', $this->description);
+                $stmt->bindParam(':prix', $this->prix);
+                $stmt->bindParam(':disponibilite', $this->disponibilite);
+                $stmt->bindParam(':annee_fabrication', $this->annee_fabrication);
+                $stmt->bindParam(':kilometrage', $this->kilometrage);
+                $stmt->bindParam(':type_carburant', $this->type_carburant);
+                $stmt->bindParam(':boite_vitesse', $this->boite_vitesse);
+                $stmt->bindParam(':puissance_moteur', $this->puissance_moteur);
+                $stmt->bindParam(':couleur', $this->couleur);
+                $stmt->bindParam(':equipements_standards', $this->equipements_standards);
+                $stmt->bindParam(':options_supplementaires', $this->options_supplementaires);
+                $stmt->bindParam(':dates_disponibles', $this->dates_disponibles);
+                $stmt->bindParam(':lieu_prise_en_charge', $this->lieu_prise_en_charge);
+                $stmt->bindParam(':lieu_retour', $this->lieu_retour);
+                $stmt->bindParam(':image_path', $this->image_path);
+                $stmt->execute();
+            }
+        }
+
+    
+
+
     ?>
     

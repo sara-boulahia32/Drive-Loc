@@ -13,11 +13,12 @@ require_once('../classes/avis.php');
 require_once('../classes/statistiques.php');
 
 $db = dataBase::getInstance()->getConnection();
-$admin = new Admin('', '', '', '', 'admin'); 
+$admin = new Admin('', '', '', '', 'admin',); 
 $statistiques = Statistiques::getStatistiques($db); 
 $vehicules = Vehicule::getAllVehicules($db); 
 $categories = Categorie::getAllCategories($db); 
 $avisList = Avis::getAllAvis($db); 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") { 
     $action = $_POST['action']; 
     if ($action == 'add_vehicule') { 
@@ -41,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } 
     header("Location: dashboard.php"); exit(); 
 }
+
 $query = "
     SELECT 
         avis.id AS avis_id,
@@ -70,6 +72,38 @@ $avisList = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript">
+        function generateFields() {
+            var numberOfVehicles = document.getElementById('numberOfVehicles').value;
+            var container = document.getElementById('vehicleFieldsContainer');
+            container.innerHTML = '';
+
+            for (var i = 0; i < numberOfVehicles; i++) {
+                var vehicleFields = `
+                    <div class="mb-4 p-4 border border-silver-300 rounded-md">
+                        <h3 class="text-xl font-bold text-white mb-4">Véhicule ${i + 1}</h3>
+                        <label for="modele_${i}">Modele:</label>
+                        <input type="text" id="modele_${i}" name="modele[]" required class="mb-4 p-2 border rounded text-black"><br>
+                        <label for="marque_${i}">Marque:</label>
+                        <input type="text" id="marque_${i}" name="marque[]" required class="mb-4 p-2 border rounded text-black"><br>
+                        <label for="prix_${i}">Prix:</label>
+                        <input type="number" id="prix_${i}" name="prix[]" required class="mb-4 p-2 border rounded text-black"><br>
+                        <label for="disponibilite_${i}">Disponibilité:</label>
+                        <input type="number" id="disponibilite_${i}" name="disponibilite[]" required class="mb-4 p-2 border rounded text-black"><br>
+                        <label for="categorie_id_${i}">Catégorie ID:</label>
+                        <input type="number" id="categorie_id_${i}" name="categorie_id[]" required class="mb-4 p-2 border rounded text-black"><br>
+                        <label for="description_${i}">Description:</label>
+                        <textarea id="description_${i}" name="description[]" rows="3" class="mb-4 p-2 border rounded text-black"></textarea><br>
+                        <label for="image_${i}">Image:</label>
+                        <input type="file" id="image_${i}" name="image[]" required class="mb-4 p-2 border rounded text-black"><br>
+                    </div>
+                `;
+                container.innerHTML += vehicleFields;
+            }
+        }
+    </script>
+
+    
 </head>
 <body class="min-h-screen bg-black text-white p-8">
 
@@ -144,46 +178,16 @@ $avisList = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <!-- Add Vehicle Button -->
         <div class="mb-12">
             <button class="bg-white text-black px-8 py-3 rounded-sm hover:bg-gray-200 transition-all" onclick="document.getElementById('addVehicleModal').classList.remove('hidden')">Add Vehicle</button>
+            <button class="bg-white text-black px-8 py-3 rounded-sm hover:bg-gray-200 transition-all" onclick="document.getElementById('bulkInsertionModal').classList.remove('hidden')">Bulk Insertion</button>
         </div>
+        
 
         <!-- Add Category Button -->
         <div class="mb-12">
             <button class="border border-white text-white px-8 py-3 rounded-sm hover:bg-white/10 transition-all" onclick="document.getElementById('addCategoryModal').classList.remove('hidden')">Add Category</button>
         </div>
 
-        <!-- Manage Reviews -->
-        <div class="bg-zinc-900 p-6 rounded-xl mb-12">
-            <h2 class="text-xl font-light mb-6">Manage Reviews</h2>
-            <table class="min-w-full bg-black bg-opacity-40 rounded-lg">
-                <thead>
-                    <tr>
-                        <th class="py-2 px-4 text-left">Reservation</th>
-                        <th class="py-2 px-4 text-left">User</th>
-                        <th class="py-2 px-4 text-left">Vehicule</th>
-                        <th class="py-2 px-4 text-left">Note</th>
-                        <th class="py-2 px-4 text-left">Commentaire</th>
-                        <th class="py-2 px-4 text-left">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($avisList as $avis) { ?>
-                    <tr>
-                        <td class="py-2 px-4"><?= $avis['reservation_id']; ?></td>
-                        <td class="py-2 px-4"><?= $avis['user_nom'] . ' ' . $avis['user_prenom']; ?></td>
-                        <td class="py-2 px-4"><?= $avis['vehicule_modele']; ?></td>
-                        <td class="py-2 px-4"><?= $avis['note']; ?></td>
-                        <td class="py-2 px-4"><?= $avis['commentaire']; ?></td>
-                        <td class="py-2 px-4">
-                            <form method="post" action="dashboard.php">
-                                <input type="hidden" name="avis_id" value="<?= $avis['avis_id']; ?>">
-                                <button type="submit" name="action" value="delete_avis" class="text-red-500 hover:underline">🗑️</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
+       
 
         <!-- Add Vehicle Modal -->
         <div id="addVehicleModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
@@ -223,7 +227,67 @@ $avisList = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
 
+
+        <!-- Bulk Insertion Form -->
+        <!-- <div id="" class="fixed inset-0 bg-black bg-opacity-50  flex items-center justify-center z-50"> -->
+        <div class="bg-black p-8 rounded-lg">
+        <h2 class="text-2xl mb-4">Add Vehicle</h2>
+        <h2 class="text-3xl font-bold text-white mb-8">Insertion en Masse</h2>
+        <form id="bulkInsertionForm" method="post" action="dashboard.php" enctype="multipart/form-data">
+            <div class="mb-4">
+                <label for="numberOfVehicles" class="block text-white mb-2">Nombre de véhicules</label>
+                <select id="numberOfVehicles" name="numberOfVehicles" class="w-full p-2 bg-black text-white border border-silver-300 rounded-md" onchange="generateFields()">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div id="vehicleFieldsContainer"></div>
+            <button type="submit" class="bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all">Ajouter</button>
+        </form>
     </div>
+     <!-- Manage Reviews -->
+     <div class="bg-zinc-900 p-6 rounded-xl mb-12">
+            <h2 class="text-xl font-light mb-6">Manage Reviews</h2>
+            <table class="min-w-full bg-black bg-opacity-40 rounded-lg">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 text-left">Reservation</th>
+                        <th class="py-2 px-4 text-left">User</th>
+                        <th class="py-2 px-4 text-left">Vehicule</th>
+                        <th class="py-2 px-4 text-left">Note</th>
+                        <th class="py-2 px-4 text-left">Commentaire</th>
+                        <th class="py-2 px-4 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($avisList as $avis) { ?>
+                    <tr>
+                        <td class="py-2 px-4"><?= $avis['reservation_id']; ?></td>
+                        <td class="py-2 px-4"><?= $avis['user_nom'] . ' ' . $avis['user_prenom']; ?></td>
+                        <td class="py-2 px-4"><?= $avis['vehicule_modele']; ?></td>
+                        <td class="py-2 px-4"><?= $avis['note']; ?></td>
+                        <td class="py-2 px-4"><?= $avis['commentaire']; ?></td>
+                        <td class="py-2 px-4">
+                            <form method="post" action="dashboard.php">
+                                <input type="hidden" name="avis_id" value="<?= $avis['avis_id']; ?>">
+                                <button type="submit" name="action" value="delete_avis" class="text-red-500 hover:underline">🗑️</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+    <!-- </div> -->
+
+
+    </div>
+    
 
 </body>
 </html>
