@@ -62,11 +62,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             </svg> <span class="ml-2 text-xl font-bold text-white">Drive & Loc</span> 
           </div> 
           <div class="hidden md:flex items-center space-x-8"> 
-            <a href="#" class="text-white hover:text-silver-300 transition-colors">Accueil</a> 
+            <a href="../index.html" class="text-white hover:text-silver-300 transition-colors">Accueil</a> 
             <a href="#" class="text-white hover:text-silver-300 transition-colors">Véhicules</a> 
-            <a href="#" class="text-white hover:text-silver-300 transition-colors">Réservations</a> 
+            <a href="mes_reservations.php" class="text-white hover:text-silver-300 transition-colors">Réservations</a> 
             <a href="#" class="text-white hover:text-silver-300 transition-colors">Contact</a> 
-            <button class="bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all"> Log out </button> 
+            <a href="logout.php" class="bg-transparent border-2 border-white text-white px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all">Log out</a> 
           </div> 
         </div> 
       </div> 
